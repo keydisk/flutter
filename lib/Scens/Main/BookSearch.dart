@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
+import 'package:test_project/Scens/Common/ScrollControllerExtension.dart';
 import 'package:test_project/ViewModel/MainViewModel.dart';
-import 'package:flutter/cupertino.dart';
 import 'SubWidget/BookCardWidget.dart';
 import 'package:provider/provider.dart';
+
+import 'SubWidget/search_target_widget.dart';
 
 class BookSearch extends StatelessWidget {
   const BookSearch({super.key});
@@ -26,14 +28,20 @@ class _BookSearch extends StatelessWidget {
 
   final ScrollController _scrollController = ScrollController();
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    var viewModel = Provider.of<MainViewModel>(context, listen: true);
+  _BookSearch() {
+
     _scrollController.addListener(() {
 
       scrollListener();
     });
+  }
+
+  MainViewModel? viewModel;
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    var viewModel = Provider.of<MainViewModel>(context, listen: true);
+    this.viewModel = viewModel;
 
     // final viewModel = Provider.of<MainViewModel>(context);
     return MaterialApp(
@@ -52,6 +60,7 @@ class _BookSearch extends StatelessWidget {
 
                 Column(children: [
 
+                  SearchTargetWidget(viewModel: viewModel,),
                   Padding(padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
                     child: TextField(controller: viewModel.contentEditController,
                       onChanged: (value) {
@@ -68,16 +77,14 @@ class _BookSearch extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Padding(padding: EdgeInsets.only(left: 10),  child: Text('선택된 검색 옵션 : ${viewModel.bookListCnt}'), ),
-                      SizedBox(),
-                      Padding(padding: EdgeInsets.only(right: 10),  child: Text('검색된 책 : ${viewModel.bookListCnt}'), ),
+                      Padding(padding: const EdgeInsets.only(left: 10),  child: Text('선택된 검색 옵션 : ${viewModel.bookListCnt}'), ),
+                      Padding(padding: const EdgeInsets.only(right: 10),  child: Text('검색된 책 : ${viewModel.pageModel.totalCnt}'), ),
                     ],
                   ),
 
                   // column에 ListView 넣을때 expaned 필수!! 그냥 암기!!
                   Expanded(child: ListView.builder(itemBuilder: (context, i) {
 
-                    viewModel.nextPage(viewModel.bookList[i].index);
                     return BookCardWidget(model: viewModel.bookList[i]);
                   }, itemCount: viewModel.bookListCnt, controller: _scrollController,) ),
                 ],)
@@ -88,14 +95,20 @@ class _BookSearch extends StatelessWidget {
   }
 
   scrollListener() async {
-    // print('offset = ${_scrollController.offset}');
 
-    if (_scrollController.offset == _scrollController.position.maxScrollExtent
-        && !_scrollController.position.outOfRange) {
-      print('스크롤이 맨 바닥에 위치해 있습니다');
-    } else if (_scrollController.offset == _scrollController.position.minScrollExtent
-        && !_scrollController.position.outOfRange) {
-      print('스크롤이 맨 위에 위치해 있습니다');
+    switch(_scrollController.scrollPosition) {
+
+      case ScrollLocation.top:
+
+        print('스크롤이 맨 위에 위치해 있습니다');
+        break;
+      case ScrollLocation.bottom:
+
+        viewModel?.nextPage();
+        print('스크롤이 맨 아래에 위치해 있습니다');
+        break;
+      default:
+        break;
     }
   }
 }

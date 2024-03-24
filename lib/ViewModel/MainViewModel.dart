@@ -12,6 +12,8 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
   final contentEditController = TextEditingController();
   List<BookModel> _list = [];
   PageInfoModel _pageModel = PageInfoModel(isEnd: false, pagableCnt: 0, totalCnt: 0, currentPageNo: 1);
+
+  PageInfoModel get pageModel => _pageModel;
   List<BookModel> get bookList => _list;
   int get bookListCnt => _list.length;
   Debouncer inputSearchText = Debouncer(Duration(milliseconds: 500),
@@ -87,18 +89,12 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
     });
   }
 
-  nextPage(int index) {
+  nextPage() {
 
     // ~/ 첨보는 연산자... 정수값을 결과값으로 갖는다고 한다.
-    var pageNo = index ~/ PageInfoModel.pageSize + 1;
-
-    if(_pageModel.isEnd || (index % PageInfoModel.pageSize != 0 && _pageModel.currentPageNo >= pageNo) ) {
-
-      return;
-    }
 
     print('next page');
-    _pageModel.currentPageNo = pageNo;
+    _pageModel.currentPageNo += 1;
     requestList(text: _text, pageNo: _pageModel.currentPageNo, type: SortingType.accuracy, target: SearchTarget.title);
   }
 

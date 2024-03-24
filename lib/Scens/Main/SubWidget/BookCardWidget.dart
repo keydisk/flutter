@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
-import 'package:test_project/Scens/Main/Common/ImageWidget.dart';
+import 'package:test_project/Scens/Common/ImageWidget.dart';
 
 class BookCardWidget extends StatelessWidget {
   final BookModel model;
