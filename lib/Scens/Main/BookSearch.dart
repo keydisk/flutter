@@ -1,0 +1,101 @@
+import 'package:flutter/material.dart';
+import 'package:test_project/Common/ModelIndex.dart';
+import 'package:test_project/ViewModel/MainViewModel.dart';
+import 'package:flutter/cupertino.dart';
+import 'SubWidget/BookCardWidget.dart';
+import 'package:provider/provider.dart';
+
+class BookSearch extends StatelessWidget {
+  const BookSearch({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+
+    // 아래 애는 뷰 모델이 다양할때 쓰는 애 실제 구현된애는 하나만 뷰모델 쓸때 쓰는 애
+    // return MultiProvider(
+    //   providers: [ChangeNotifierProvider<MainViewModel>(create: (_) => MainViewModel())],
+    //   child: _BookSearch(),
+    // );
+    return ChangeNotifierProvider(
+        create: (_) => MainViewModel(), child: _BookSearch());
+  }
+}
+
+class _BookSearch extends StatelessWidget {
+
+  final ScrollController _scrollController = ScrollController();
+
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    var viewModel = Provider.of<MainViewModel>(context, listen: true);
+    _scrollController.addListener(() {
+
+      scrollListener();
+    });
+
+    // final viewModel = Provider.of<MainViewModel>(context);
+    return MaterialApp(
+        title: 'My ®Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.black),
+          useMaterial3: true,
+        ),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home:
+
+        Container(child:
+        Scaffold(
+            appBar: AppBar(title: const Text('책 정보 조회')),
+            body:
+
+                Column(children: [
+
+                  Padding(padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                    child: TextField(controller: viewModel.contentEditController,
+                      onChanged: (value) {
+                        viewModel.searchText = value;
+                      },
+                      decoration: const InputDecoration(enabledBorder: UnderlineInputBorder(),
+                        labelText: 'search text', contentPadding: EdgeInsets.all(0),
+                      ),
+
+                      keyboardType: TextInputType.none,
+                    ),
+                  ),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(padding: EdgeInsets.only(left: 10),  child: Text('선택된 검색 옵션 : ${viewModel.bookListCnt}'), ),
+                      SizedBox(),
+                      Padding(padding: EdgeInsets.only(right: 10),  child: Text('검색된 책 : ${viewModel.bookListCnt}'), ),
+                    ],
+                  ),
+
+                  // column에 ListView 넣을때 expaned 필수!! 그냥 암기!!
+                  Expanded(child: ListView.builder(itemBuilder: (context, i) {
+
+                    viewModel.nextPage(viewModel.bookList[i].index);
+                    return BookCardWidget(model: viewModel.bookList[i]);
+                  }, itemCount: viewModel.bookListCnt, controller: _scrollController,) ),
+                ],)
+
+        )
+    )
+    );
+  }
+
+  scrollListener() async {
+    // print('offset = ${_scrollController.offset}');
+
+    if (_scrollController.offset == _scrollController.position.maxScrollExtent
+        && !_scrollController.position.outOfRange) {
+      print('스크롤이 맨 바닥에 위치해 있습니다');
+    } else if (_scrollController.offset == _scrollController.position.minScrollExtent
+        && !_scrollController.position.outOfRange) {
+      print('스크롤이 맨 위에 위치해 있습니다');
+    }
+  }
+}
