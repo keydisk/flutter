@@ -1,9 +1,9 @@
 // ignore_for_file: prefer_const_constructors
-import 'dart:ffi';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
+import 'package:test_project/Common/ModelIndex.dart';
 
 class BookModel {
+
   int index = 0;
   String get author {
     return authors.reduce((value, element) {
@@ -29,7 +29,18 @@ class BookModel {
 
   String publisher = '';
   int price = 0;
+
+  String get printMoneyPrice {
+
+    return NumberFormat().moneyFormat(price);
+  }
+
   int salePrice = 0;
+
+  String get printMoneySalePrice {
+
+    return NumberFormat().moneyFormat(salePrice);
+  }
 
   String get printDate {
     final f = DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZZZZ");
@@ -45,7 +56,7 @@ class BookModel {
     } else {
       var tmpDate = DateTime.parse(this.datetime);
 
-      return '할인가 : $salePrice 정상가 : $price';
+      return '할인가 : $printMoneySalePrice 정상가 : $printMoneyPrice';
     }
   }
 
@@ -56,13 +67,18 @@ class BookModel {
   String url = "";
 
   String get printTranslators {
-    return this.translators.reduce((value, element) {
-      if (value == '') {
-        return value;
-      } else {
-        return '$value, $element';
-      }
-    });
+
+    if(translators.isEmpty) {
+      return '';
+    } else {
+      return translators.reduce((value, element) {
+        if (value == '') {
+          return value;
+        } else {
+          return '$value, $element';
+        }
+      });
+    }
   }
 
   BookModel({

@@ -6,9 +6,8 @@ import 'package:provider/provider.dart';
 
 /// 검색 타겟 옵션
 class SearchTargetWidget extends StatelessWidget {
-
-
   final MainViewModel viewModel;
+
   const SearchTargetWidget({super.key, required this.viewModel});
 
   @override
@@ -20,25 +19,51 @@ class SearchTargetWidget extends StatelessWidget {
     //   providers: [ChangeNotifierProvider<MainViewModel>(create: (_) => MainViewModel())],
     //   child: _BookSearch(),
     // );
-    return ChangeNotifierProvider(
-        create: (_) => MainViewModel(), child: _SearchTargetWidgetState());
+    // return ChangeNotifierProvider(
+    //     create: (_) => MainViewModel(), child: _SearchTargetWidgetState());
+    return _SearchTargetWidgetState(viewModel: viewModel,);
   }
-
 }
 
 class _SearchTargetWidgetState extends StatelessWidget {
-  List<SearchTarget> targetList = [SearchTarget.title, SearchTarget.publisher, SearchTarget.isbn, SearchTarget.person];
+  final MainViewModel viewModel;
+  const _SearchTargetWidgetState({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+    // var viewModel = Provider.of<MainViewModel>(context, listen: true);
 
-      for(int i = 0; i<targetList.length;i++)
-        Container(child: Column(children: [
-          Padding(padding: const EdgeInsets.all(10), child: Text(targetList[i].printTitle),),
-        ],), decoration: BoxDecoration(border: Border.all(color: Colors.black), borderRadius: BorderRadius.circular(5)), ),
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          for (int i = 0; i < SearchTarget.list.length; i++)
+            AnimatedContainer(
+              duration: Duration(milliseconds: 300),
+              child: Container(
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Text(SearchTarget.list[i].printTitle),
+                      ),
+                      onTap: () {
 
-    ], ),
+                        viewModel.target = SearchTarget.list[i];
+                      },
+                    )
+                  ],
+                ),
+                decoration: BoxDecoration(
+                    border: viewModel.target == SearchTarget.list[i]
+                        ? Border.all(color: Colors.black)
+                        : Border.all(color: Colors.transparent),
+                    borderRadius: BorderRadius.circular(5)),
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

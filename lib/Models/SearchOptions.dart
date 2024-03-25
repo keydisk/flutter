@@ -10,6 +10,8 @@ enum SortingType {
 
   final String paramName;
   final String title;
+
+  static List<SortingType> list = [accuracy, latest];
 }
 
 enum SearchTarget {

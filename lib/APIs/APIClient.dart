@@ -18,13 +18,13 @@ class APIClient {
     receiveTimeout: Duration(seconds: 3),
   );
 
-  var dio = Dio();
+  Dio dio = Dio();
 
   APIClient() {
     dio = Dio(_baseOptions);
   }
 
-  Future requestData({required Map<String, dynamic> param}) async {
+  Future<dynamic> requestData({required String url, required Map<String, dynamic> param}) async {
     try {
       var response = await dio.request<String>(
           'https://dapi.kakao.com/v3/search/book',
@@ -38,4 +38,11 @@ class APIClient {
       print('# error : $e');
     }
   }
+
+  /// 책 검색 호출
+  Future<dynamic> requestBookInfoData({required Map<String, dynamic> param}) async {
+
+    return requestData(url: 'https://dapi.kakao.com/v3/search/book', param: param);
+  }
+
 }

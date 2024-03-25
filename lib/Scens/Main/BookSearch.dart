@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
-import 'package:test_project/Scens/Common/ScrollControllerExtension.dart';
+import 'package:test_project/Scens/DetailBook/detail_book_widget.dart';
 import 'package:test_project/ViewModel/MainViewModel.dart';
 import 'SubWidget/BookCardWidget.dart';
 import 'package:provider/provider.dart';
@@ -25,18 +25,16 @@ class BookSearch extends StatelessWidget {
 }
 
 class _BookSearch extends StatelessWidget {
-
   final ScrollController _scrollController = ScrollController();
 
   _BookSearch() {
-
     _scrollController.addListener(() {
-
       scrollListener();
     });
   }
 
   MainViewModel? viewModel;
+
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -51,59 +49,87 @@ class _BookSearch extends StatelessWidget {
           useMaterial3: true,
         ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        home:
-
-        Container(child:
-        Scaffold(
+        home: Scaffold(
             appBar: AppBar(title: const Text('책 정보 조회')),
-            body:
-
-                Column(children: [
-
-                  SearchTargetWidget(viewModel: viewModel,),
-                  Padding(padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
-                    child: TextField(controller: viewModel.contentEditController,
-                      onChanged: (value) {
-                        viewModel.searchText = value;
-                      },
-                      decoration: const InputDecoration(enabledBorder: UnderlineInputBorder(),
-                        labelText: 'search text', contentPadding: EdgeInsets.all(0),
-                      ),
-
-                      keyboardType: TextInputType.none,
+            body: Column(
+              children: [
+                SearchTargetWidget(
+                  viewModel: viewModel,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
+                  child: TextField(
+                    controller: viewModel.contentEditController,
+                    onChanged: (value) {
+                      viewModel.searchText = value;
+                    },
+                    decoration: const InputDecoration(
+                      enabledBorder: UnderlineInputBorder(),
+                      labelText: 'search text',
+                      contentPadding: EdgeInsets.all(0),
                     ),
+                    keyboardType: TextInputType.none,
                   ),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Padding(padding: const EdgeInsets.only(left: 10),  child: Text('선택된 검색 옵션 : ${viewModel.bookListCnt}'), ),
-                      Padding(padding: const EdgeInsets.only(right: 10),  child: Text('검색된 책 : ${viewModel.pageModel.totalCnt}'), ),
-                    ],
-                  ),
-
-                  // column에 ListView 넣을때 expaned 필수!! 그냥 암기!!
-                  Expanded(child: ListView.builder(itemBuilder: (context, i) {
-
-                    return BookCardWidget(model: viewModel.bookList[i]);
-                  }, itemCount: viewModel.bookListCnt, controller: _scrollController,) ),
-                ],)
-
-        )
-    )
-    );
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Row(children: [
+                        for(int i = 0; i < SortingType.list.length; i++)
+                          Padding(padding: const EdgeInsets.only(right: 10), child:
+                            GestureDetector(child: Text(SortingType.list[i].title, style: TextStyle(color: viewModel.sorting == SortingType.list[i] ? Colors.black : Colors.grey)), onTap: () {
+                              viewModel.sorting = SortingType.list[i];
+                            },)
+                          )
+                      ],),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text('검색된 책 : ${viewModel.pageModel.totalCnt}'),
+                    ),
+                  ],
+                ),
+                if (viewModel.searchText == "" && viewModel.bookListCnt == 0)
+                  const Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '검색어를 입력하십시오.',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Expanded(
+                      child: ListView.builder(
+                    itemBuilder: (context, i) {
+                      return GestureDetector(
+                        child: BookCardWidget(model: viewModel.bookList[i]),
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DetailBookWidget(
+                                  model: viewModel.bookList[i])));
+                        },
+                      );
+                    },
+                    itemCount: viewModel.bookListCnt,
+                    controller: _scrollController,
+                  )),
+              ],
+            )));
   }
 
   scrollListener() async {
-
-    switch(_scrollController.scrollPosition) {
-
+    switch (_scrollController.scrollPosition) {
       case ScrollLocation.top:
-
         print('스크롤이 맨 위에 위치해 있습니다');
         break;
       case ScrollLocation.bottom:
-
         viewModel?.nextPage();
         print('스크롤이 맨 아래에 위치해 있습니다');
         break;

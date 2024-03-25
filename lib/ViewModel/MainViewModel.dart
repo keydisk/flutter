@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:debounce_throttle/debounce_throttle.dart';
 import 'package:test_project/APIs/APIClient.dart';
+import 'package:test_project/Models/SearchOptions.dart';
 import '../Common/ModelIndex.dart';
 
 /*
@@ -16,6 +17,32 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
   PageInfoModel get pageModel => _pageModel;
   List<BookModel> get bookList => _list;
   int get bookListCnt => _list.length;
+
+  SortingType _sorting = SortingType.accuracy;
+  SortingType get sorting => _sorting;
+  set sorting(SortingType type) {
+    _sorting = type;
+    notifyListeners();
+
+    requestList(text: searchText, pageNo: _pageModel.currentPageNo, type: _sorting, target: _target);
+  }
+
+  SearchTarget _target = SearchTarget.title;
+  /// 검색할 타겟(책 제목, 저자, 출판사등~~)
+  SearchTarget get target => _target;
+
+  set target(SearchTarget target) {
+
+    _target = target;
+    notifyListeners();
+
+    _pageModel.currentPageNo = 1;
+    _pageModel.totalCnt = 0;
+
+    requestList(text: searchText, pageNo: _pageModel.currentPageNo, type: _sorting, target: _target);
+  }
+
+
   Debouncer inputSearchText = Debouncer(Duration(milliseconds: 500),
       initialValue: "", checkEquality: false);
   final api = APIClient();
@@ -26,7 +53,7 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
     inputSearchText = Debouncer(waitTime, initialValue: "", checkEquality: false);
 
     inputSearchText.values.listen((text) {
-      requestList(text: text, pageNo: _pageModel.currentPageNo, type: SortingType.accuracy, target: SearchTarget.title);
+      requestList(text: text, pageNo: _pageModel.currentPageNo, type: _sorting, target: _target);
     });
 
     if(kDebugMode) {
@@ -36,47 +63,62 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
 
   set searchText(String text) {
 
-    _text = text;
-
     if (text == "") {
       // 입력이 없으면 기존에 리스트에 할당된 데이터를 날린다.
 
       _list = [];
-      _pageModel.currentPageNo = 0;
+      _pageModel.currentPageNo = 1;
+      _pageModel.totalCnt = 0;
       notifyListeners();
     } else {
+      if(_text != text) {
+        _pageModel.currentPageNo = 1;
+        _pageModel.totalCnt = 0;
+        _list = [];
+      }
+
       inputSearchText.setValue(text);
     }
+
+    _text = text;
   }
+
+  String get searchText {
+    return _text;
+  }
+
 
   // PageInfoModel
   requestList({required String text,  required int pageNo,  required SortingType type,  required SearchTarget target}) {
 
-    api.requestData(param: getParam(text: text, pageNo: pageNo, type: type, target: target)).then((json) {
-
-      List<dynamic> jsonList = json['documents'];
-
+    api.requestBookInfoData(param: getParam(text: text, pageNo: pageNo, type: type, target: target)).then((json) {
 
       var lastIndex = 0;
 
       try {
-        lastIndex = _list.last.index;
 
+        lastIndex = _list.last.index;
       } catch(e) {
-        print(e);
+
         lastIndex = 0;
       }
 
-      var tmpList = jsonList.map((model) {
-        var rtnModel = BookModel.fromJson(model);
+      var tmpList = getReturnData(json).map((model) {
+
         lastIndex += 1;
-        rtnModel.index = lastIndex;
-        return rtnModel;
+        model.index = lastIndex;
+        return model;
       }).toList();
 
-      for (var element in tmpList) {
+      print('## _targe : $_target tmpList : ${tmpList.length} text $text');
 
-        _list.add(element);
+      if(tmpList.isEmpty) {
+        _list = [];
+      } else {
+
+        for (var element in tmpList) {
+          _list.add(element);
+        }
       }
 
       _pageModel = PageInfoModel(isEnd: json["meta"]["is_end"], pagableCnt: json["meta"]["pageable_count"],
@@ -84,6 +126,7 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
           currentPageNo: _pageModel.currentPageNo);
       // 데이터 변경 알림
       notifyListeners();
+
     }).catchError((error) {
       print('parsing error : $error');
     });
@@ -91,11 +134,9 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
 
   nextPage() {
 
-    // ~/ 첨보는 연산자... 정수값을 결과값으로 갖는다고 한다.
-
     print('next page');
     _pageModel.currentPageNo += 1;
-    requestList(text: _text, pageNo: _pageModel.currentPageNo, type: SortingType.accuracy, target: SearchTarget.title);
+    requestList(text: _text, pageNo: _pageModel.currentPageNo, type: _sorting, target: SearchTarget.title);
   }
 
 }
