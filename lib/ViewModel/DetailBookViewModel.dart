@@ -82,16 +82,11 @@ class DetailBookViewModel extends ChangeNotifier with ApiInterfaceMixin {
     observerPublisherList.then((value) {
 
       _publisherBookList = getReturnData(value).toList();
-
-      print('################################################');
-      print('publisherBookList result : ${publisherBookList.length}');
     });
 
     observerAuthorList.then((json) {
 
       _authorBookList = getReturnData(json).toList();
-      print('################################################');
-      print('authorBookList result : ${_authorBookList.length}');
     });
 
     notifyListeners();
