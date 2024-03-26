@@ -40,6 +40,7 @@ dependencies:
   provider: ^6.1.2
   intl: ^0.19.0
   webview_flutter: ^4.7.0
+  flutter_native_splash: ^2.1.6
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -55,12 +56,20 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
+#flutter_native_splash:
+#  image: image/splash.png
+#  color: "6a1b9a"
+#  android: true
+#  ios: true
+#  fill: true
 flutter:
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - image/splash.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
