@@ -39,7 +39,9 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
     _pageModel.currentPageNo = 1;
     _pageModel.totalCnt = 0;
 
-    requestList(text: searchText, pageNo: _pageModel.currentPageNo, type: _sorting, target: _target);
+    if(searchText.isNotEmpty) {
+      requestList(text: searchText, pageNo: _pageModel.currentPageNo, type: _sorting, target: _target);
+    }
   }
 
 

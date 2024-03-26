@@ -52,9 +52,9 @@ class BookModel {
 
   String get printPrice {
     if (salePrice == -1) {
-      return '가격 $price';
+      return '가격 $printMoneyPrice';
     } else {
-      var tmpDate = DateTime.parse(this.datetime);
+      var tmpDate = DateTime.parse(datetime);
 
       return '할인가 : $printMoneySalePrice 정상가 : $printMoneyPrice';
     }
