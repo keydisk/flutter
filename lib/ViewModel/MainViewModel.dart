@@ -8,7 +8,7 @@ import '../Common/ModelIndex.dart';
 /*
 jychoi 책 리스트의 비지니스 로직 처리 뷰 모델
 * */
-class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
+class MainViewModel extends CommonViewModel with ApiInterfaceMixin {
   final waitTime = Duration(milliseconds: 500);
   final contentEditController = TextEditingController();
   List<BookModel> _list = [];
@@ -47,7 +47,6 @@ class MainViewModel extends ChangeNotifier with ApiInterfaceMixin {
 
   Debouncer inputSearchText = Debouncer(Duration(milliseconds: 500),
       initialValue: "", checkEquality: false);
-  final api = APIClient();
 
   String _text = "";
 
