@@ -8,6 +8,7 @@ import 'package:test_project/ViewModel/DetailBookViewModel.dart';
 import 'package:test_project/Scens/Common/ImageWidget.dart';
 
 import 'SubWidget/book_info_simple_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class DetailBookWidget extends StatelessWidget {
   final BookModel model;
@@ -46,13 +47,13 @@ class _DetailBookWidget extends StatelessWidget {
                 _contentInfo(viewModel),
 
                 if (viewModel.authorBookList.isNotEmpty)
-                  const Padding(padding: EdgeInsets.only(left: 10, right: 10, top: 10), child:
+                  Padding(padding: EdgeInsets.only(left: 10, right: 10, top: 10), child:
                   Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('작가의 다른 책',
-                            style: TextStyle(
+                        Text(tr('BookDetail.AuthorsOtherBook'),
+                            style: const TextStyle(
                               color: Colors.black,
                               fontSize: 17,
                             ))
@@ -62,14 +63,14 @@ class _DetailBookWidget extends StatelessWidget {
                   _authorBookList(context, viewModel),
 
                 if (viewModel.publisherBookList.isNotEmpty)
-                  const Padding(
+                  Padding(
                     padding: EdgeInsets.only(left: 10, right: 10, top: 10),
                     child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text('같은 출판사의 다른 책',
-                              style: TextStyle(
+                          Text(tr("BookDetail.DifferentBookFromSamePublisher"),
+                              style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 17,
                               ))
@@ -160,7 +161,7 @@ class _DetailBookWidget extends StatelessWidget {
           for (int i = 0; i < viewModel.introTapList.length; i++)
             GestureDetector(
               child: Text(
-                viewModel.introTapList[i].title,
+                viewModel.introTapList[i].printTitle,
                 style: TextStyle(
                     fontSize: 17,
                     fontWeight: viewModel.selecTap == viewModel.introTapList[i]
@@ -189,7 +190,7 @@ class _DetailBookWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('저자 : ${viewModel.model.author}'),
+                    Text('${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
                     if (viewModel.model.printTranslators.isNotEmpty)
                       Padding(
                         padding: const EdgeInsets.only(
@@ -203,14 +204,14 @@ class _DetailBookWidget extends StatelessWidget {
                         ),
                       ),
                     if (viewModel.model.printTranslators.isNotEmpty)
-                      Text('역자 ${viewModel.model.printTranslators}'),
+                      Text('${tr('BookDetail.Element.Translator')} ${viewModel.model.printTranslators}'),
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('출판 : ${viewModel.model.publisher}'),
+                    Text('${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
                     Padding(
                       padding: const EdgeInsets.only(
                         left: 10,
@@ -222,7 +223,7 @@ class _DetailBookWidget extends StatelessWidget {
                         color: Colors.grey,
                       ),
                     ),
-                    Text('출간일 ${viewModel.model.printDate}'),
+                    Text('${tr('BookDetail.Element.PublisingDate')} ${viewModel.model.printDate}'),
                   ],
                 )
               ],
@@ -239,7 +240,7 @@ class _DetailBookWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('저자 : ${viewModel.model.author}'),
+                    Text('${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
                   ],
                 ),
               ],
@@ -256,7 +257,7 @@ class _DetailBookWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text('출판사 : ${viewModel.model.publisher}'),
+                    Text('${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
                   ],
                 ),
               ],

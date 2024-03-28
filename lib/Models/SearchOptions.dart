@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
+
 /// 소팅 타입
 enum SortingType {
-  accuracy(paramName: 'accuracy', title: '정확도순'),
-  latest(paramName: 'latest', title: '최신순');
+  accuracy(paramName: 'accuracy', title: "SearchTarget.accuracy"),
+  latest(paramName: 'latest', title: "SearchTarget.latest" );
 
   const SortingType({
     required this.paramName,
@@ -15,10 +17,11 @@ enum SortingType {
 }
 
 enum SearchTarget {
-  title(printTitle: '제목', paramName: 'title'),
-  isbn(printTitle: 'ISBN', paramName: 'isbn'),
-  publisher(printTitle: '출판사', paramName: 'publisher'),
-  person(printTitle: '저자', paramName: 'person');
+
+  title(printTitle: "BookSearch.TargetName.title", paramName: 'title'),
+  isbn(printTitle: "BookSearch.TargetName.isbn", paramName: 'isbn'),
+  publisher(printTitle: "BookSearch.TargetName.publisher", paramName: 'publisher'),
+  person(printTitle: "BookSearch.TargetName.author", paramName: 'person');
 
   const SearchTarget({
     required this.paramName,

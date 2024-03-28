@@ -1,22 +1,28 @@
 import 'package:flutter/widgets.dart';
-import 'package:test_project/APIs/APIClient.dart';
 import '../Common/ModelIndex.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 enum SelectBookDetailTap {
-  intro(title: '소개'),
-  author(title: '저자'),
-  publisher(title: '출판사명');
+  intro(title: 'BookDetail.Intro'),
+  author(title: 'BookDetail.Author'),
+  publisher(title: 'BookDetail.PublisingName');
+
 
   const SelectBookDetailTap({
     required this.title,
   });
 
   final String title;
+
+  String get printTitle {
+    return title.tr();
+  }
+
 }
 
 /// 책상세
-class DetailBookViewModel extends ChangeNotifier with ApiInterfaceMixin {
-  APIClient _api = APIClient();
+class DetailBookViewModel extends CommonViewModel with ApiInterfaceMixin {
 
   List<SelectBookDetailTap> introTapList = [
     SelectBookDetailTap.intro,
@@ -61,14 +67,14 @@ class DetailBookViewModel extends ChangeNotifier with ApiInterfaceMixin {
 
     }
 
-    var observerPublisherList = _api.requestBookInfoData(
+    var observerPublisherList = api.requestBookInfoData(
         param: getParam(
             text: model.publisher,
             pageNo: 1,
             type: SortingType.latest,
             target: SearchTarget.publisher));
 
-    var observerAuthorList = _api.requestBookInfoData(
+    var observerAuthorList = api.requestBookInfoData(
         param: getParam(
             text: author,
             pageNo: 1,

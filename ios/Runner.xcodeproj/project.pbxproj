@@ -114,7 +114,6 @@
 				F6404178914F954B43B19413 /* Pods-RunnerTests.release.xcconfig */,
 				00659CD14BC1C9020D5A782E /* Pods-RunnerTests.profile.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -153,6 +152,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				C0F339252BB29BD8005D2DEE /* Fcm */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -163,6 +163,13 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		C0F339252BB29BD8005D2DEE /* Fcm */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Fcm;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

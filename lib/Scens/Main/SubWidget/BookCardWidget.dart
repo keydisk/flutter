@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
 import 'package:test_project/Scens/Common/ImageWidget.dart';
@@ -43,17 +44,33 @@ class BookCardWidget extends StatelessWidget {
                       ),
                     ),
                   ),
+
+                  SizedBox(
+
+                    width: constraints.maxWidth * textMargin,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 10),
+                      child: Text(
+                        '${"BookSearch.Element.Author".tr()} : ${model.author}',
+                        style: const TextStyle(
+                            fontSize: 17, fontWeight: FontWeight.bold),
+                        overflow: TextOverflow.visible,
+                        softWrap: true,
+                        textAlign: TextAlign.justify,
+                      ),
+                    ),
+                  ),
+                  // "Element.Author"
+                  //     "Element.SalePrice"
+                  //     "Element.NormalPrice"
                   Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
-                      child: Text('작가 : ${model.author}')),
-                  Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(model.publisher)),
                   Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10),
+                      padding: const EdgeInsets.only(left: 10, right: 10),
                       child: Text(model.status)),
                   Padding(
-                      padding: EdgeInsets.only(left: 10, right: 10, top: 20),
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
                       child: Text(model.printPrice)),
 
                   SizedBox(
@@ -62,7 +79,8 @@ class BookCardWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        '출간일 : ${model.printDate}',
+
+                        '${tr("BookSearch.Element.PublisingDate")} : ${model.printDate}',
                         overflow: TextOverflow.visible,
                         softWrap: true,
                         textAlign: TextAlign.end,

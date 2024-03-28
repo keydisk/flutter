@@ -1,0 +1,47 @@
+{
+
+  "SearchTarget": {
+    "accuracy": "정확도",
+    "latest": "최신순"
+  },
+
+  "BookSearch": {
+    "TargetName": {
+      "title": "제목",
+      "isbn": "ISBN",
+      "publisher": "출판사",
+      "author": "저자"
+    },
+    "Title": "책 정보 조회",
+    "TextField": {
+      "PlaceHolder": "검색어를 입력하세요."
+    },
+    "EmptyView": "검색내역이 없습니다.",
+    "EmptySearchText": "검색어를 입력하세요.",
+    "SearchedBook": "검색된 책 : {}",
+    "Element" : {
+      "Author": "작가",
+      "SalePrice": "할인가",
+      "NormalPrice": "정상가",
+      "PublisingDate": "출간일"
+    }
+  },
+
+  "BookDetail": {
+    "Intro": "소개",
+    "Author": "작가",
+    "PublisingName": "출판사명",
+
+    "Element": {
+      "Author": "저자",
+      "SalePrice": "할인가",
+      "NormalPrice": "정상가",
+      "PublisingDate": "출간일",
+      "Translator": "역자",
+      "Publisher": "출판사"
+    },
+
+    "AuthorsOtherBook": "같은 작가의 다른책",
+    "DifferentBookFromSamePublisher": "같은 출판사의 다른 책"
+  }
+}

@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:intl/intl.dart';
 import 'package:test_project/Common/ModelIndex.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookModel {
 
@@ -52,11 +53,11 @@ class BookModel {
 
   String get printPrice {
     if (salePrice == -1) {
-      return '가격 $printMoneyPrice';
+      return '${"BookSearch.Element.NormalPrice".tr()} $printMoneyPrice';
     } else {
       var tmpDate = DateTime.parse(datetime);
 
-      return '할인가 : $printMoneySalePrice 정상가 : $printMoneyPrice';
+      return '${"BookSearch.Element.SalePrice".tr()} : $printMoneySalePrice ${"BookSearch.Element.NormalPrice".tr()} : $printMoneyPrice';
     }
   }
 
