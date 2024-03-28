@@ -45,6 +45,8 @@ dependencies:
   webview_flutter: ^4.7.0
   flutter_native_splash: ^2.4.0
   easy_localization: ^3.0.5
+  firebase_core: ^2.27.2
+  firebase_crashlytics: ^3.4.20
 
 dev_dependencies:
   flutter_test:

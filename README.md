@@ -38,13 +38,13 @@ _sorting, target: _target); });
 책 상세보기에서 같은 작가 & 같은 출판사의 책 조회시 두 api호출 후 두 이벤트가 모두 발생한 이후 처리를 위한 코드
 <pre>
   <code>
-    List<Future<dynamic>> futures = [observerPublisherList, observerAuthorList];
-List<dynamic> result = await Future.wait(futures);
+
+    List&lt;Future&lt;dynamic&gt;&gt; futures = [observerPublisherList, observerAuthorList];
+List&lt;dynamic&gt; result = await Future.wait(futures);
   </code>
 </pre>
 
 다국어 지원
-
 <pre>
   <code>
 pubspec.yaml에
@@ -105,7 +105,7 @@ void main() async {
     "SearchedBook": "검색된 책 : {}",
 }
 위와 같이 있을때 하위 언어팩에 접근하기 위해서 tr("BookDetail.Element.Publisher") <- 이렇게 접근
-"SearchedBook" 이항목같이 하위의 {}를 정하고 데이터를 적용하려면 
+"SearchedBook" 이 항목같이 하위의 {}를 정하고 데이터를 적용하려면 
 "BookSearch".tr(gender: "SearchedBook", args: ["${viewModel.pageModel.totalCnt}"]) 이런식으로 {}에 적용할 데이터를 적용.
 
   </code>

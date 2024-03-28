@@ -52,13 +52,10 @@ class _BookSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     var viewModel = Provider.of<MainViewModel>(context, listen: true);
     this.viewModel = viewModel;
-    final String? placeHolderText = tr("BookSearch.TextField.PlaceHolder");
-    print("title : ${placeHolderText}");
 
-
-    // final viewModel = Provider.of<MainViewModel>(context);
     return Scaffold(
         appBar: AppBar(title: const Text('BookSearch.Title').tr()),
+        resizeToAvoidBottomInset: true,
         body: Column(
           children: [
             SearchTargetWidget(
@@ -67,16 +64,20 @@ class _BookSearch extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 10, right: 10, top: 5),
               child: TextField (
-                controller: viewModel.contentEditController,
                 onChanged: (value) {
                   viewModel.searchText = value;
                 },
                 decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(),
-                  contentPadding: EdgeInsets.all(0),
+                  enabledBorder: const OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.only(left: 5, right: 5),
                   hintText: tr("BookSearch.TextField.PlaceHolder"),
+                  hintStyle: const TextStyle(
+                    color: Colors.black54,
+                    fontSize: 16,
+                  ),
                 ),
-                keyboardType: TextInputType.none,
+                onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+                // keyboardType: TextInputType.none,
               ),
             ),
             Row(

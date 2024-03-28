@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:test_project/Common/ModelIndex.dart';
 import 'package:test_project/Scens/Common/ImageWidget.dart';
 
@@ -19,20 +20,17 @@ class BookCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                child: ImageWidget(
-                    imgUrl: model.thumbnail, borderRadius: Radius.circular(10)),
                 width: constraints.maxWidth / 4,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(color: Colors.black, width: 1)),
+                child: ImageWidget(
+                    imgUrl: model.thumbnail, borderRadius: const Radius.circular(10)),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-
-                    width: constraints.maxWidth * textMargin,
-                    child: Padding(
+                  _wrappPadding(constraints, Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         model.title,
@@ -41,14 +39,25 @@ class BookCardWidget extends StatelessWidget {
                         overflow: TextOverflow.visible,
                         softWrap: true,
                         textAlign: TextAlign.justify,
-                      ),
-                    ),
-                  ),
+                      )), ),
+                  // SizedBox(
+                  //
+                  //   width: constraints.maxWidth * textMargin,
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(left: 10),
+                  //     child: Text(
+                  //       model.title,
+                  //       style: const TextStyle(
+                  //           fontSize: 17, fontWeight: FontWeight.bold),
+                  //       overflow: TextOverflow.visible,
+                  //       softWrap: true,
+                  //       textAlign: TextAlign.justify,
+                  //     ),
+                  //   ),
+                  // ),
 
-                  SizedBox(
-
-                    width: constraints.maxWidth * textMargin,
-                    child: Padding(
+                  _wrappPadding(constraints,
+                    Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
                         '${"BookSearch.Element.Author".tr()} : ${model.author}',
@@ -63,20 +72,20 @@ class BookCardWidget extends StatelessWidget {
                   // "Element.Author"
                   //     "Element.SalePrice"
                   //     "Element.NormalPrice"
-                  Padding(
+                  _wrappPadding(constraints,
+                    Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(model.publisher)),
-                  Padding(
+                      child: Text(model.publisher)) ),
+                  _wrappPadding(constraints, Padding(
                       padding: const EdgeInsets.only(left: 10, right: 10),
-                      child: Text(model.status)),
-                  Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
-                      child: Text(model.printPrice)),
+                      child: Text(model.status)) ),
 
-                  SizedBox(
-                    // width: MediaQuery.of(context).size.width * textMargin, <- 현재 디바이스의 넓이
-                    width: constraints.maxWidth * textMargin,
-                    child: Padding(
+                  _wrappPadding(constraints, Padding(
+                      padding: const EdgeInsets.only(left: 10, right: 10, top: 20),
+                      child: Text(model.printPrice))),
+
+                  _wrappPadding(constraints,
+                     Padding(
                       padding: const EdgeInsets.only(left: 10),
                       child: Text(
 
@@ -94,4 +103,13 @@ class BookCardWidget extends StatelessWidget {
       );
     });
   }
+
+  Widget _wrappPadding(BoxConstraints constraints, Widget widget) {
+    return SizedBox(
+        // width: MediaQuery.of(context).size.width * textMargin, <- 현재 디바이스의 넓이
+        width: constraints.maxWidth * textMargin,
+        child: widget
+    );
+  }
+
 }

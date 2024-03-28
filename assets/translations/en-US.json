@@ -16,7 +16,7 @@
     },
     "EmptyView": "No search history.",
     "EmptySearchText": "Please enter a search term.",
-    "SearchedBook": "Searched Book : {cnt}",
+    "SearchedBook": "Searched Book : {}",
     "Element": {
       "Author": "Author",
       "SalePrice": "Sale Price",
@@ -36,7 +36,8 @@
       "SalePrice": "Sale Price",
       "NormalPrice": "Normal Price",
       "PublisingDate": "Publication date",
-      "Translator": "Translator"
+      "Translator": "Translator",
+      "Publisher": "Publisher"
     },
 
     "AuthorsOtherBook": "The author's other book",
