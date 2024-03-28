@@ -22,10 +22,7 @@ MVVM, Dart
 * 책 상세보기
 * 색 상세보기에서 책 선택시 웹뷰로 이동
 
-## 향후 개선사항
-* 스킴으로 모든 기능을 다 연결해서 외부에서 앱의 원하는 기능으로 연결 되게 구현
-
-책 검색을 위해 debounce가 적용된 코드
+* 책 검색을 위해 debounce가 적용된 코드
 <pre>
   <code>
     final waitTime = Duration(milliseconds: 500); inputSearchText = Debouncer(waitTime, initialValue: "",
@@ -36,7 +33,7 @@ _sorting, target: _target); });
   </code>
 </pre>
 
-책 상세보기에서 같은 작가 & 같은 출판사의 책 조회시 두 api호출 후 두 이벤트가 모두 발생한 이후 처리를 위한 코드
+* 책 상세보기에서 같은 작가 & 같은 출판사의 책 조회시 두 api호출 후 두 이벤트가 모두 발생한 이후 처리를 위한 코드
 <pre>
   <code>
     List<Future<dynamic>> futures = [observerPublisherList, observerAuthorList];
@@ -44,6 +41,10 @@ List<dynamic> result = await Future.wait(futures);
   </code>
 </pre>
 
-파이어 베이스 크래시 애널리틱스 적용
+* 파이어 베이스 크래시 애널리틱스 적용
 
 ![Alt Text](https://github.com/keydisk/portfolio/assets/23250335/d71b888f-167a-4ae3-bf36-323af3c33e57)
+
+
+## 향후 개선사항
+* 스킴으로 모든 기능을 다 연결해서 외부에서 앱의 원하는 기능으로 연결 되게 구현
