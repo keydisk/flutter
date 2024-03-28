@@ -13,8 +13,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  runApp(const BookSearch());
-
   runApp(
     EasyLocalization(
       // 지원 언어 리스트
