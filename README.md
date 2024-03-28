@@ -13,6 +13,8 @@ MVVM, Dart
   - provider 6.1.2 (mvvm 사용시 데이터 바인딩을 위해 사용)
   - intl 0.19.0 (금액 표시를 위해 사용)
   - webview_flutter: 4.7.0 (웹뷰 표시를 위해 사용)
+  - firebase_core: 2.27.2 (파이어베이스 적용을 위해 사용, FCM, Crashlytics, firebase_analytics 등)
+  - firebase_crashlytics: 3.4.20 (크래시 로그를 남기기 위해 사용)
 
 ## 구현사항
 * 책 검색 (키보드로 입력시 입력이 끝나고 0.5초 이후에 검색 debounce사용)
@@ -41,3 +43,7 @@ _sorting, target: _target); });
 List<dynamic> result = await Future.wait(futures);
   </code>
 </pre>
+
+파이어 베이스 크래시 애널리틱스 적용
+
+![Alt Text](https://github.com/keydisk/portfolio/assets/23250335/d71b888f-167a-4ae3-bf36-323af3c33e57)
