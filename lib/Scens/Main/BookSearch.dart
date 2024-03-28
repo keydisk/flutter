@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
 import 'package:test_project/Scens/DetailBook/detail_book_widget.dart';
@@ -122,9 +123,10 @@ class _BookSearch extends StatelessWidget {
                         child: BookCardWidget(model: viewModel.bookList[i]),
                         onTap: () {
 
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => DetailBookWidget(
-                                  model: viewModel.bookList[i])));
+                          FirebaseCrashlytics.instance.crash();
+                          // Navigator.of(context).push(MaterialPageRoute(
+                          //     builder: (context) => DetailBookWidget(
+                          //         model: viewModel.bookList[i])));
                         },
                       );
                     },
