@@ -7,6 +7,7 @@ import 'package:test_project/ViewModel/MainViewModel.dart';
 import 'SubWidget/BookCardWidget.dart';
 import 'package:provider/provider.dart';
 import 'SubWidget/search_target_widget.dart';
+import 'package:test_project/Scens/Common/toast_widget.dart';
 
 class BookSearch extends StatelessWidget {
   const BookSearch({super.key});
@@ -123,18 +124,35 @@ class _BookSearch extends StatelessWidget {
                         child: BookCardWidget(model: viewModel.bookList[i]),
                         onTap: () {
 
-                          FirebaseCrashlytics.instance.crash();
-                          // Navigator.of(context).push(MaterialPageRoute(
-                          //     builder: (context) => DetailBookWidget(
-                          //         model: viewModel.bookList[i])));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => DetailBookWidget(
+                                  model: viewModel.bookList[i])));
                         },
                       );
                     },
                     itemCount: viewModel.bookListCnt,
                     controller: _scrollController,
                   )),
+
           ],
-        ));
+
+        ),
+
+
+        // if(kDebugMode)
+      // 플로팅 버튼으로 크래시 테스트
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        
+        ToastView.shared.toast(context: context, text: 'test toast message');
+        // throw Exception();
+      }, elevation: 2, child:
+      const Column(children: [
+        Icon(Icons.account_tree),
+        Text('크래시 테스트')
+      ],),
+      ),
+    );
   }
 
   scrollListener() async {

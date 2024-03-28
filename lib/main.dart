@@ -18,10 +18,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(); // <- 이거
+  // await Firebase.initializeApp(); // <- 이거
 
   FlutterError.onError = (errorDetails) {
 

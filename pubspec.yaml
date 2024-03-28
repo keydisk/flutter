@@ -1,5 +1,5 @@
 name: test_project
-description: "플러터 시작"
+description: "플러터 포트폴리오"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
