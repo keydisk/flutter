@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:test_project/Common/ModelIndex.dart';
 import 'package:test_project/Scens/DetailBook/detail_book_widget.dart';
 import 'package:test_project/ViewModel/MainViewModel.dart';
-import 'SubWidget/BookCardWidget.dart';
 import 'package:provider/provider.dart';
-import 'SubWidget/search_target_widget.dart';
+import 'package:test_project/Scens/BookSearchMain/SubWidget/BookCardWidget.dart';
+import 'package:test_project/Scens/BookSearchMain/SubWidget/search_target_widget.dart';
 import 'package:test_project/Scens/Common/toast_widget.dart';
 
 class BookSearch extends StatelessWidget {
@@ -23,18 +23,9 @@ class BookSearch extends StatelessWidget {
     //   child: _BookSearch(),
     // );
 
-    return MaterialApp(
-        title: 'My ®Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          useMaterial3: true,
-        ),
-        localizationsDelegates: context.localizationDelegates,
-        supportedLocales: context.supportedLocales,
-        locale: context.locale,
-        home: ChangeNotifierProvider(
-            create: (_) => MainViewModel(), child: _BookSearch())
-    );
+    return
+      ChangeNotifierProvider(
+          create: (_) => MainViewModel(), child: _BookSearch());
   }
 }
 
@@ -138,20 +129,6 @@ class _BookSearch extends StatelessWidget {
 
         ),
 
-
-        // if(kDebugMode)
-      // 플로팅 버튼으로 크래시 테스트
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: FloatingActionButton(onPressed: () {
-        
-        ToastView.shared.toast(context: context, text: 'test toast message');
-        // throw Exception();
-      }, elevation: 2, child:
-      const Column(children: [
-        Icon(Icons.account_tree),
-        Text('크래시 테스트')
-      ],),
-      ),
     );
   }
 

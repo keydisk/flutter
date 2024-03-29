@@ -23,11 +23,13 @@ class DetailBookWidget extends StatelessWidget {
 }
 
 class _DetailBookWidget extends StatelessWidget {
-  // lazy DetailBookViewModel _viewModel;
+  // late AnimationController _animationController;
+
   @override
   Widget build(BuildContext context) {
     var viewModel = Provider.of<DetailBookViewModel>(context, listen: true);
-    // _viewModel = viewModel;
+
+    // _animationController = AnimationController(duration: const Duration(seconds: 1), vsync: this);
 
     // return LayoutBuilder(builder: (context, constraints) { });
     return Scaffold(
@@ -45,23 +47,22 @@ class _DetailBookWidget extends StatelessWidget {
                 _getBookMetaData(viewModel),
                 _line,
                 _contentInfo(viewModel),
-
                 if (viewModel.authorBookList.isNotEmpty)
-                  Padding(padding: EdgeInsets.only(left: 10, right: 10, top: 10), child:
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(tr('BookDetail.AuthorsOtherBook'),
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 17,
-                            ))
-                      ]),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(tr('BookDetail.AuthorsOtherBook'),
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 17,
+                              ))
+                        ]),
                   ),
                 if (viewModel.authorBookList.isNotEmpty)
                   _authorBookList(context, viewModel),
-
                 if (viewModel.publisherBookList.isNotEmpty)
                   Padding(
                     padding: EdgeInsets.only(left: 10, right: 10, top: 10),
@@ -76,14 +77,12 @@ class _DetailBookWidget extends StatelessWidget {
                               ))
                         ]),
                   ),
-
                 if (viewModel.publisherBookList.isNotEmpty)
                   _publisherBookList(context, viewModel),
               ],
             )
           ],
         )),
-
         _line,
         Text(viewModel.model.printPrice),
         _goWebViewBottomBtn(context, viewModel),
@@ -177,92 +176,92 @@ class _DetailBookWidget extends StatelessWidget {
     );
   }
 
-  Stack _getBookMetaData(DetailBookViewModel viewModel) {
+  Widget _setMetaDataPadding(DetailBookViewModel viewModel,
+      SelectBookDetailTap data, List<Widget> widget) {
+    return AnimatedOpacity(
+        opacity: viewModel.selecTap == data ? 1 : 0,
+        duration: const Duration(milliseconds: 300),
+        child: Padding(
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
+            child: Column(children: widget)));
+  }
+
+  Widget _getBookMetaData(DetailBookViewModel viewModel) {
     return Stack(
       children: [
-        Visibility(
-          visible: viewModel.selecTap == SelectBookDetailTap.intro,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
-                    if (viewModel.model.printTranslators.isNotEmpty)
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 10,
-                          right: 10,
-                        ),
-                        child: Container(
-                          height: 10.0,
-                          width: 1.0,
-                          color: Colors.grey,
-                        ),
-                      ),
-                    if (viewModel.model.printTranslators.isNotEmpty)
-                      Text('${tr('BookDetail.Element.Translator')} ${viewModel.model.printTranslators}'),
-                  ],
+        _setMetaDataPadding(viewModel, SelectBookDetailTap.intro, [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                  '${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
+              if (viewModel.model.printTranslators.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: Container(
+                    height: 10.0,
+                    width: 1.0,
+                    color: Colors.grey,
+                  ),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                      ),
-                      child: Container(
-                        height: 10.0,
-                        width: 1.0,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    Text('${tr('BookDetail.Element.PublisingDate')} ${viewModel.model.printDate}'),
-                  ],
-                )
+              if (viewModel.model.printTranslators.isNotEmpty)
+                Text(
+                    '${tr('BookDetail.Element.Translator')} ${viewModel.model.printTranslators}'),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                  '${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 10,
+                  right: 10,
+                ),
+                child: Container(
+                  height: 10.0,
+                  width: 1.0,
+                  color: Colors.grey,
+                ),
+              ),
+              Text(
+                  '${tr('BookDetail.Element.PublisingDate')} ${viewModel.model.printDate}'),
+            ],
+          )
+        ]),
+        _setMetaDataPadding(
+          viewModel,
+          SelectBookDetailTap.publisher,
+          [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                    '${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
               ],
             ),
-          ),
+          ],
         ),
-        Visibility(
-          visible: viewModel.selecTap == SelectBookDetailTap.author,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Column(
+        _setMetaDataPadding(
+          viewModel,
+          SelectBookDetailTap.author,
+          [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('${tr('BookDetail.Element.Author')} : ${viewModel.model.author}'),
-                  ],
-                ),
+                Text(
+                    '${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
               ],
             ),
-          ),
-        ),
-        Visibility(
-          visible: viewModel.selecTap == SelectBookDetailTap.publisher,
-          child: Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text('${tr('BookDetail.Element.Publisher')} : ${viewModel.model.publisher}'),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          ],
         ),
       ],
     );
@@ -274,43 +273,50 @@ class _DetailBookWidget extends StatelessWidget {
         child: Text(viewModel.model.contents));
   }
 
-  Widget _publisherBookList(BuildContext context, DetailBookViewModel viewModel) {
-
-    return Container(height: 230, child: ListView.builder(
+  Widget _publisherBookList(
+      BuildContext context, DetailBookViewModel viewModel) {
+    return Container(
+      height: 230,
+      child: ListView.builder(
         shrinkWrap: true,
-    itemBuilder: (context, index) {
-
+        itemBuilder: (context, index) {
           var model = viewModel.publisherBookList[index];
-      return GestureDetector(child: Padding(padding: const EdgeInsets.only(left: 10, right: 10), child: BookInfoSimpleWidget(model: model)), onTap: (){
-
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) =>
-                CommonWebViewWidget(url: model.url)));
-      },);
-    },
-    itemCount: viewModel.publisherBookList.length,
-    scrollDirection: Axis.horizontal,),
+          return GestureDetector(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: BookInfoSimpleWidget(model: model)),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CommonWebViewWidget(url: model.url)));
+            },
+          );
+        },
+        itemCount: viewModel.publisherBookList.length,
+        scrollDirection: Axis.horizontal,
+      ),
     );
   }
 
   Widget _authorBookList(BuildContext context, DetailBookViewModel viewModel) {
-
-    return Container(height: 230, child: ListView.builder(
-      shrinkWrap: true,
-      itemBuilder: (context, index) {
-
-        var model = viewModel.authorBookList[index];
-        return GestureDetector(child: Padding(padding: const EdgeInsets.only(left: 10, right: 10), child: BookInfoSimpleWidget(model: model)), onTap: (){
-
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  CommonWebViewWidget(url: model.url)));
-        },);
-      },
-      itemCount: viewModel.authorBookList.length,
-      scrollDirection: Axis.horizontal,),
+    return Container(
+      height: 230,
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: (context, index) {
+          var model = viewModel.authorBookList[index];
+          return GestureDetector(
+            child: Padding(
+                padding: const EdgeInsets.only(left: 10, right: 10),
+                child: BookInfoSimpleWidget(model: model)),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => CommonWebViewWidget(url: model.url)));
+            },
+          );
+        },
+        itemCount: viewModel.authorBookList.length,
+        scrollDirection: Axis.horizontal,
+      ),
     );
   }
-
-
 }

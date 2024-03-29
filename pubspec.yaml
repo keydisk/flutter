@@ -47,6 +47,7 @@ dependencies:
   easy_localization: ^3.0.5
   firebase_core: ^2.27.2
   firebase_crashlytics: ^3.4.20
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
